@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"sevima/config"
+	"sevima/controller"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -30,5 +31,6 @@ func main() {
 	}
 
 	router := httprouter.New()
+	router.POST("/user/register", controller.RegisterUser)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
