@@ -2,7 +2,9 @@ CREATE TABLE `pembelian` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `nama_barang` int(11) DEFAULT NULL,
-  `harga_barang` varchar(255) DEFAULT NULL
+  `harga_barang` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT "pengecekan",
+  `created_at` datetime NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE `penjualan` (
@@ -11,14 +13,17 @@ CREATE TABLE `penjualan` (
   `berat_sampah` int(11) DEFAULT NULL,
   `jenis_sampah` varchar(255) DEFAULT NULL,
   `harga_sampah` int(11) DEFAULT NULL,
-  `keuntungan` int(11) DEFAULT NULL
+  `status` varchar(255) DEFAULT "pengecekan",
+  `keuntungan` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE `riwayat` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `pembelian_id` int(11) DEFAULT NULL,
-  `penjualan_id` int(11) DEFAULT NULL
+  `penjualan_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE `user` (
@@ -30,7 +35,8 @@ CREATE TABLE `user` (
   `email` varchar(255) DEFAULT NULL,
   `saldo` int(255) DEFAULT 0,
   `total_sampah` int(255) DEFAULT 0,
-  `role` varchar(255) DEFAULT "user"
+  `role` varchar(255) DEFAULT "user",
+  `created_at` datetime NOT NULL DEFAULT (now())
 );
 
 ALTER TABLE `penjualan` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
