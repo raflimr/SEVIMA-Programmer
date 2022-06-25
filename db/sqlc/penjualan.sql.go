@@ -16,7 +16,7 @@ INSERT INTO penjualan (
 `
 
 type CreatePenjualanParams struct {
-	BeratSampah int32  `json:"berat_sampah"`
+	BeratSampah int  `json:"berat_sampah"`
 	JenisSampah string `json:"jenis_sampah"`
 	HargaSampah int32  `json:"harga_sampah"`
 	Keuntungan  int32  `json:"keuntungan"`

@@ -12,6 +12,7 @@ import (
 	sqlClient "sevima/db/sqlc"
 	"sevima/routes"
 
+	"github.com/go-chi/cors"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -57,5 +58,10 @@ func main() {
 	routes.PembelianRouter(router)
 	routes.PenjualanRouter(router)
 
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "DELETE", "PUT", "OPTIONS"},
+	})
+
+	log.Fatal(http.ListenAndServe(":"+port, c.Handler(router)))
 }
