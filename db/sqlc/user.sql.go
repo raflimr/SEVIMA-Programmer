@@ -5,7 +5,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const getAdminUser = `-- name: GetAdminUser :one
@@ -52,20 +51,86 @@ func (q *Queries) GetUserByID(ctx context.Context, id int32) (User, error) {
 	return i, err
 }
 
+const getUserByUsernameAndPassword = `-- name: GetUserByUsernameAndPassword :one
+SELECT id, photo, username, password, no_hp, email, saldo, total_sampah, role, created_at FROM user WHERE username = ? AND password = ?
+`
+
+type GetUserByUsernameAndPasswordParams struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func (q *Queries) GetUserByUsernameAndPassword(ctx context.Context, arg GetUserByUsernameAndPasswordParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserByUsernameAndPassword, arg.Username, arg.Password)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Photo,
+		&i.Username,
+		&i.Password,
+		&i.NoHp,
+		&i.Email,
+		&i.Saldo,
+		&i.TotalSampah,
+		&i.Role,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const registerUser = `-- name: RegisterUser :exec
 INSERT INTO user (
-  username, password
+  username, password, role
 ) VALUES (
-  ?, ?
+  ?, ?, ?
 )
 `
 
 type RegisterUserParams struct {
-	Username sql.NullString `json:"username"`
-	Password sql.NullString `json:"password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
 }
 
 func (q *Queries) RegisterUser(ctx context.Context, arg RegisterUserParams) error {
-	_, err := q.db.ExecContext(ctx, registerUser, arg.Username, arg.Password)
+	_, err := q.db.ExecContext(ctx, registerUser, arg.Username, arg.Password, arg.Role)
+	return err
+}
+
+const updateProfile = `-- name: UpdateProfile :exec
+UPDATE user SET photo = ?, password = ?, no_hp = ?,email = ? WHERE id = ?
+`
+
+type UpdateProfileParams struct {
+	Photo    string `json:"photo"`
+	Password string         `json:"password"`
+	NoHp     string `json:"no_hp"`
+	Email    string `json:"email"`
+	ID       int32          `json:"id"`
+}
+
+func (q *Queries) UpdateProfile(ctx context.Context, arg UpdateProfileParams) error {
+	_, err := q.db.ExecContext(ctx, updateProfile,
+		arg.Photo,
+		arg.Password,
+		arg.NoHp,
+		arg.Email,
+		arg.ID,
+	)
+	return err
+}
+
+const updateSaldodanTotalSampah = `-- name: UpdateSaldodanTotalSampah :exec
+UPDATE user SET saldo = ?,  total_sampah = ? WHERE id = ?
+`
+
+type UpdateSaldodanTotalSampahParams struct {
+	Saldo       int32 `json:"saldo"`
+	TotalSampah int32 `json:"total_sampah"`
+	ID          int32 `json:"id"`
+}
+
+func (q *Queries) UpdateSaldodanTotalSampah(ctx context.Context, arg UpdateSaldodanTotalSampahParams) error {
+	_, err := q.db.ExecContext(ctx, updateSaldodanTotalSampah, arg.Saldo, arg.TotalSampah, arg.ID)
 	return err
 }

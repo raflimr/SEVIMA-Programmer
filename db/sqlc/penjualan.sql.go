@@ -17,10 +17,10 @@ INSERT INTO penjualan (
 `
 
 type CreatePenjualanParams struct {
-	BeratSampah sql.NullInt32  `json:"berat_sampah"`
-	JenisSampah sql.NullString `json:"jenis_sampah"`
-	HargaSampah sql.NullInt32  `json:"harga_sampah"`
-	Keuntungan  sql.NullInt32  `json:"keuntungan"`
+	BeratSampah int32  `json:"berat_sampah"`
+	JenisSampah string `json:"jenis_sampah"`
+	HargaSampah int32  `json:"harga_sampah"`
+	Keuntungan  int32  `json:"keuntungan"`
 }
 
 func (q *Queries) CreatePenjualan(ctx context.Context, arg CreatePenjualanParams) error {
@@ -33,38 +33,16 @@ func (q *Queries) CreatePenjualan(ctx context.Context, arg CreatePenjualanParams
 	return err
 }
 
-const getAllPenjualan = `-- name: GetAllPenjualan :many
-SELECT id, user_id, berat_sampah, jenis_sampah, harga_sampah, status, keuntungan, created_at FROM penjuala
+const updateStatusPenjualan = `-- name: UpdateStatusPenjualan :exec
+UPDATE penjualan SET status = ? WHERE user_id = ?
 `
 
-func (q *Queries) GetAllPenjualan(ctx context.Context) ([]Penjualan, error) {
-	rows, err := q.db.QueryContext(ctx, getAllPenjualan)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Penjualan
-	for rows.Next() {
-		var i Penjualan
-		if err := rows.Scan(
-			&i.ID,
-			&i.UserID,
-			&i.BeratSampah,
-			&i.JenisSampah,
-			&i.HargaSampah,
-			&i.Status,
-			&i.Keuntungan,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+type UpdateStatusPenjualanParams struct {
+	Status string        `json:"status"`
+	UserID sql.NullInt32 `json:"user_id"`
+}
+
+func (q *Queries) UpdateStatusPenjualan(ctx context.Context, arg UpdateStatusPenjualanParams) error {
+	_, err := q.db.ExecContext(ctx, updateStatusPenjualan, arg.Status, arg.UserID)
+	return err
 }

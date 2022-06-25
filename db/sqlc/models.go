@@ -8,23 +8,23 @@ import (
 )
 
 type Pembelian struct {
-	ID          int32          `json:"id"`
-	UserID      sql.NullInt32  `json:"user_id"`
-	NamaBarang  sql.NullString `json:"nama_barang"`
-	HargaBarang sql.NullInt32  `json:"harga_barang"`
-	Status      sql.NullString `json:"status"`
-	CreatedAt   time.Time      `json:"created_at"`
+	ID          int32         `json:"id"`
+	UserID      sql.NullInt32 `json:"user_id"`
+	NamaBarang  string        `json:"nama_barang"`
+	HargaBarang int32         `json:"harga_barang"`
+	Status      string        `json:"status"`
+	CreatedAt   time.Time     `json:"created_at"`
 }
 
 type Penjualan struct {
-	ID          int32          `json:"id"`
-	UserID      sql.NullInt32  `json:"user_id"`
-	BeratSampah sql.NullInt32  `json:"berat_sampah"`
-	JenisSampah sql.NullString `json:"jenis_sampah"`
-	HargaSampah sql.NullInt32  `json:"harga_sampah"`
-	Status      sql.NullString `json:"status"`
-	Keuntungan  sql.NullInt32  `json:"keuntungan"`
-	CreatedAt   time.Time      `json:"created_at"`
+	ID          int32         `json:"id"`
+	UserID      sql.NullInt32 `json:"user_id"`
+	BeratSampah int32         `json:"berat_sampah"`
+	JenisSampah string        `json:"jenis_sampah"`
+	HargaSampah int32         `json:"harga_sampah"`
+	Status      string        `json:"status"`
+	Keuntungan  int32         `json:"keuntungan"`
+	CreatedAt   time.Time     `json:"created_at"`
 }
 
 type RiwayatPembelian struct {
@@ -44,12 +44,12 @@ type RiwayatPenjualan struct {
 type User struct {
 	ID          int32          `json:"id"`
 	Photo       sql.NullString `json:"photo"`
-	Username    sql.NullString `json:"username"`
-	Password    sql.NullString `json:"password"`
+	Username    string         `json:"username"`
+	Password    string         `json:"password"`
 	NoHp        sql.NullString `json:"no_hp"`
 	Email       sql.NullString `json:"email"`
-	Saldo       sql.NullInt32  `json:"saldo"`
-	TotalSampah sql.NullInt32  `json:"total_sampah"`
-	Role        sql.NullString `json:"role"`
+	Saldo       int32          `json:"saldo"`
+	TotalSampah int32          `json:"total_sampah"`
+	Role        string         `json:"role"`
 	CreatedAt   time.Time      `json:"created_at"`
 }

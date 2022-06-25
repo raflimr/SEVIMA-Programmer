@@ -6,4 +6,4 @@ INSERT INTO penjualan (
 );
 
 -- name: UpdateStatusPenjualan :exec
-UPDATE penjualan SET status = "success" WHERE user_id = ?;
+UPDATE penjualan SET status = ? WHERE user_id = ?;

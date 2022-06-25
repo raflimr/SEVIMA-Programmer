@@ -9,6 +9,15 @@ import (
 	"time"
 )
 
+const deleteRiwayatPembelian = `-- name: DeleteRiwayatPembelian :exec
+DELETE FROM riwayat_pembelian WHERE id = ?
+`
+
+func (q *Queries) DeleteRiwayatPembelian(ctx context.Context, id int32) error {
+	_, err := q.db.ExecContext(ctx, deleteRiwayatPembelian, id)
+	return err
+}
+
 const getAllRiwayatPembelian = `-- name: GetAllRiwayatPembelian :many
 SELECT
    u.username,
@@ -22,13 +31,13 @@ JOIN
 `
 
 type GetAllRiwayatPembelianRow struct {
-	Username    sql.NullString `json:"username"`
-	ID          int32          `json:"id"`
-	UserID      sql.NullInt32  `json:"user_id"`
-	NamaBarang  sql.NullString `json:"nama_barang"`
-	HargaBarang sql.NullInt32  `json:"harga_barang"`
-	Status      sql.NullString `json:"status"`
-	CreatedAt   time.Time      `json:"created_at"`
+	Username    string        `json:"username"`
+	ID          int32         `json:"id"`
+	UserID      sql.NullInt32 `json:"user_id"`
+	NamaBarang  string        `json:"nama_barang"`
+	HargaBarang int32         `json:"harga_barang"`
+	Status      string        `json:"status"`
+	CreatedAt   time.Time     `json:"created_at"`
 }
 
 func (q *Queries) GetAllRiwayatPembelian(ctx context.Context) ([]GetAllRiwayatPembelianRow, error) {
@@ -77,13 +86,13 @@ WHERE
 `
 
 type GetByIDRiwayatPembelianRow struct {
-	Username    sql.NullString `json:"username"`
-	ID          int32          `json:"id"`
-	UserID      sql.NullInt32  `json:"user_id"`
-	NamaBarang  sql.NullString `json:"nama_barang"`
-	HargaBarang sql.NullInt32  `json:"harga_barang"`
-	Status      sql.NullString `json:"status"`
-	CreatedAt   time.Time      `json:"created_at"`
+	Username    string        `json:"username"`
+	ID          int32         `json:"id"`
+	UserID      sql.NullInt32 `json:"user_id"`
+	NamaBarang  string        `json:"nama_barang"`
+	HargaBarang int32         `json:"harga_barang"`
+	Status      string        `json:"status"`
+	CreatedAt   time.Time     `json:"created_at"`
 }
 
 func (q *Queries) GetByIDRiwayatPembelian(ctx context.Context, id int32) ([]GetByIDRiwayatPembelianRow, error) {

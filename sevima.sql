@@ -1,20 +1,20 @@
 CREATE TABLE `pembelian` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `nama_barang` varchar(255) DEFAULT NULL,
-  `harga_barang` int(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT "pengecekan",
+  `nama_barang` varchar(255)  NOT NULL,
+  `harga_barang` int(255)  NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT "pengecekan",
   `created_at` datetime NOT NULL
 );
 
 CREATE TABLE `penjualan` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `berat_sampah` int(11) DEFAULT NULL,
-  `jenis_sampah` varchar(255) DEFAULT NULL,
-  `harga_sampah` int(11) DEFAULT NULL,
-  `status` varchar(255) DEFAULT "pengecekan",
-  `keuntungan` int(11) DEFAULT NULL,
+  `berat_sampah` int(11)  NOT NULL,
+  `jenis_sampah` varchar(255)  NOT NULL,
+  `harga_sampah` int(11)  NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT "pengecekan",
+  `keuntungan` int(11)  NOT NULL,
   `created_at` datetime NOT NULL
 );
 
@@ -35,13 +35,13 @@ CREATE TABLE `riwayat_penjualan` (
 CREATE TABLE `user` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `photo` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255)  NOT NULL,
+  `password` varchar(255)  NOT NULL,
   `no_hp` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `saldo` int(255) DEFAULT 0,
-  `total_sampah` int(255) DEFAULT 0,
-  `role` varchar(255) DEFAULT "user",
+  `saldo` int(255) NOT NULL DEFAULT 0,
+  `total_sampah` int(255) NOT NULL DEFAULT 0,
+  `role` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL
 );
 

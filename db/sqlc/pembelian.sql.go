@@ -17,8 +17,8 @@ INSERT INTO pembelian (
 `
 
 type CreatePembelianParams struct {
-	NamaBarang  sql.NullString `json:"nama_barang"`
-	HargaBarang sql.NullInt32  `json:"harga_barang"`
+	NamaBarang  string `json:"nama_barang"`
+	HargaBarang int32  `json:"harga_barang"`
 }
 
 func (q *Queries) CreatePembelian(ctx context.Context, arg CreatePembelianParams) error {
@@ -26,36 +26,16 @@ func (q *Queries) CreatePembelian(ctx context.Context, arg CreatePembelianParams
 	return err
 }
 
-const getAllPembelian = `-- name: GetAllPembelian :many
-SELECT id, user_id, nama_barang, harga_barang, status, created_at FROM pembelia
+const updateStatusPembelian = `-- name: UpdateStatusPembelian :exec
+UPDATE pembelian SET status = ? WHERE user_id = ?
 `
 
-func (q *Queries) GetAllPembelian(ctx context.Context) ([]Pembelian, error) {
-	rows, err := q.db.QueryContext(ctx, getAllPembelian)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Pembelian
-	for rows.Next() {
-		var i Pembelian
-		if err := rows.Scan(
-			&i.ID,
-			&i.UserID,
-			&i.NamaBarang,
-			&i.HargaBarang,
-			&i.Status,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+type UpdateStatusPembelianParams struct {
+	Status string        `json:"status"`
+	UserID sql.NullInt32 `json:"user_id"`
+}
+
+func (q *Queries) UpdateStatusPembelian(ctx context.Context, arg UpdateStatusPembelianParams) error {
+	_, err := q.db.ExecContext(ctx, updateStatusPembelian, arg.Status, arg.UserID)
+	return err
 }

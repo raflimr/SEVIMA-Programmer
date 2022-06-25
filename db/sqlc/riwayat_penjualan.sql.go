@@ -9,6 +9,15 @@ import (
 	"time"
 )
 
+const deleteRiwayatPenjualan = `-- name: DeleteRiwayatPenjualan :exec
+DELETE FROM riwayat_penjualan WHERE id = ?
+`
+
+func (q *Queries) DeleteRiwayatPenjualan(ctx context.Context, id int32) error {
+	_, err := q.db.ExecContext(ctx, deleteRiwayatPenjualan, id)
+	return err
+}
+
 const getAllRiwayatPenjualan = `-- name: GetAllRiwayatPenjualan :many
 SELECT
    u.username,
@@ -22,15 +31,15 @@ JOIN
 `
 
 type GetAllRiwayatPenjualanRow struct {
-	Username    sql.NullString `json:"username"`
-	ID          int32          `json:"id"`
-	UserID      sql.NullInt32  `json:"user_id"`
-	BeratSampah sql.NullInt32  `json:"berat_sampah"`
-	JenisSampah sql.NullString `json:"jenis_sampah"`
-	HargaSampah sql.NullInt32  `json:"harga_sampah"`
-	Status      sql.NullString `json:"status"`
-	Keuntungan  sql.NullInt32  `json:"keuntungan"`
-	CreatedAt   time.Time      `json:"created_at"`
+	Username    string        `json:"username"`
+	ID          int32         `json:"id"`
+	UserID      sql.NullInt32 `json:"user_id"`
+	BeratSampah int32         `json:"berat_sampah"`
+	JenisSampah string        `json:"jenis_sampah"`
+	HargaSampah int32         `json:"harga_sampah"`
+	Status      string        `json:"status"`
+	Keuntungan  int32         `json:"keuntungan"`
+	CreatedAt   time.Time     `json:"created_at"`
 }
 
 func (q *Queries) GetAllRiwayatPenjualan(ctx context.Context) ([]GetAllRiwayatPenjualanRow, error) {
@@ -81,15 +90,15 @@ WHERE
 `
 
 type GetByIDRiwayatPenjualanRow struct {
-	Username    sql.NullString `json:"username"`
-	ID          int32          `json:"id"`
-	UserID      sql.NullInt32  `json:"user_id"`
-	BeratSampah sql.NullInt32  `json:"berat_sampah"`
-	JenisSampah sql.NullString `json:"jenis_sampah"`
-	HargaSampah sql.NullInt32  `json:"harga_sampah"`
-	Status      sql.NullString `json:"status"`
-	Keuntungan  sql.NullInt32  `json:"keuntungan"`
-	CreatedAt   time.Time      `json:"created_at"`
+	Username    string        `json:"username"`
+	ID          int32         `json:"id"`
+	UserID      sql.NullInt32 `json:"user_id"`
+	BeratSampah int32         `json:"berat_sampah"`
+	JenisSampah string        `json:"jenis_sampah"`
+	HargaSampah int32         `json:"harga_sampah"`
+	Status      string        `json:"status"`
+	Keuntungan  int32         `json:"keuntungan"`
+	CreatedAt   time.Time     `json:"created_at"`
 }
 
 func (q *Queries) GetByIDRiwayatPenjualan(ctx context.Context, id int32) ([]GetByIDRiwayatPenjualanRow, error) {

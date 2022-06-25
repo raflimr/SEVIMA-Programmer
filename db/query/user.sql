@@ -1,8 +1,8 @@
 -- name: RegisterUser :exec
 INSERT INTO user (
-  username, password
+  username, password, role
 ) VALUES (
-  ?, ?
+  ?, ?, ?
 );
 
 -- name: GetUserByID :one
