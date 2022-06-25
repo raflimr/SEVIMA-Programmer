@@ -5,7 +5,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createPenjualan = `-- name: CreatePenjualan :exec
@@ -39,7 +38,7 @@ UPDATE penjualan SET status = ? WHERE user_id = ?
 
 type UpdateStatusPenjualanParams struct {
 	Status string        `json:"status"`
-	UserID sql.NullInt32 `json:"user_id"`
+	UserID int32 `json:"user_id"`
 }
 
 func (q *Queries) UpdateStatusPenjualan(ctx context.Context, arg UpdateStatusPenjualanParams) error {

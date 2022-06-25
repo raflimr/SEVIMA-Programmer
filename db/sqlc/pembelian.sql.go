@@ -5,7 +5,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createPembelian = `-- name: CreatePembelian :exec
@@ -32,7 +31,7 @@ UPDATE pembelian SET status = ? WHERE user_id = ?
 
 type UpdateStatusPembelianParams struct {
 	Status string        `json:"status"`
-	UserID sql.NullInt32 `json:"user_id"`
+	UserID int32 `json:"user_id"`
 }
 
 func (q *Queries) UpdateStatusPembelian(ctx context.Context, arg UpdateStatusPembelianParams) error {

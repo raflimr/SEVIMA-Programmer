@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	client "sevima/db"
 	db "sevima/db/sqlc"
@@ -28,6 +29,20 @@ func CreatePenjualan(w http.ResponseWriter, r *http.Request, ps httprouter.Param
 			utils.ResponseJSON(w, err, http.StatusBadRequest)
 			return
 		}
+
+		var err error
+		switch jual.JenisSampah {
+		case "buah":
+			jual.HargaSampah = 500
+		case "sayur":
+			jual.HargaSampah = 200
+		case "campuran":
+			jual.HargaSampah = 200
+		default:
+			log.Fatal(err)
+		}
+
+		jual.Keuntungan = jual.BeratSampah * jual.HargaSampah
 
 		if err := client.DB.CreatePenjualan(ctx, jual); err != nil {
 			utils.ResponseJSON(w, err, http.StatusInternalServerError)

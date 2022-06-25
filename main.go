@@ -54,6 +54,8 @@ func main() {
 	routes.UserRouter(router)
 	routes.RiwayatPenjualanRouter(router)
 	routes.RiwayatPembelianRouter(router)
+	routes.PembelianRouter(router)
+	routes.PenjualanRouter(router)
 
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
